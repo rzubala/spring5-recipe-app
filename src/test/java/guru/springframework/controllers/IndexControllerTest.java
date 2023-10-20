@@ -60,13 +60,13 @@ class IndexControllerTest {
         recipeData.add(recipe);
 
         var argumentCaptor = ArgumentCaptor.forClass(Set.class);
-        when(recipeService.getRecipies()).thenReturn(recipeData);
+        when(recipeService.getRecipes()).thenReturn(recipeData);
 
         String indexPage = indexController.getIndexPage(model);
 
         assertEquals("index", indexPage);
 
-        verify(recipeService, times(1)).getRecipies();
+        verify(recipeService, times(1)).getRecipes();
         verify(model, times(1)).addAttribute(eq("recipes"), argumentCaptor.capture());
         var recipesCaptured = argumentCaptor.getValue();
         assertEquals(2, recipesCaptured.size());
