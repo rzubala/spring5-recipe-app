@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Slf4j
 @Service
@@ -94,6 +95,7 @@ public class IngredientServiceImpl implements IngredientService {
                     .filter(recipeIngredients -> recipeIngredients.getId().equals(command.getId()))
                     .findFirst();
 
+            AtomicReference<Long> commandId = new AtomicReference<>(command.getId());
             //check by description
             if(!savedIngredientOptional.isPresent()){
                 //not totally safe... But best guess
@@ -103,10 +105,13 @@ public class IngredientServiceImpl implements IngredientService {
                         .filter(recipeIngredients -> recipeIngredients.getUom().getId().equals(command.getUom().getId()))
                         .findFirst();
             }
+            savedIngredientOptional.ifPresent(i -> {
+                commandId.set(i.getId());
+            });
 
             //to do check for fail
             return ingredientToIngredientCommand.convert(savedRecipe.getIngredients().stream()
-                    .filter(recipeIngredients -> recipeIngredients.getId().equals(command.getId()))
+                    .filter(recipeIngredients -> recipeIngredients.getId().equals(commandId.get()))
                     .findFirst()
                     .get());
         }
