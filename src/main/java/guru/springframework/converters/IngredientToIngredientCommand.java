@@ -7,6 +7,8 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 /**
  * Created by jt on 6/21/17.
  */
@@ -29,6 +31,7 @@ public class IngredientToIngredientCommand implements Converter<Ingredient, Ingr
 
         IngredientCommand ingredientCommand = new IngredientCommand();
         ingredientCommand.setId(ingredient.getId());
+        Optional.ofNullable(ingredient.getRecipe()).ifPresent(r -> ingredientCommand.setRecipeId(r.getId()));
         ingredientCommand.setAmount(ingredient.getAmount());
         ingredientCommand.setDescription(ingredient.getDescription());
         ingredientCommand.setUom(uomConverter.convert(ingredient.getUom()));
