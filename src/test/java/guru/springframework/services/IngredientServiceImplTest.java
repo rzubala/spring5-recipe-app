@@ -7,6 +7,7 @@ import guru.springframework.converters.UnitOfMeasureCommandToUnitOfMeasure;
 import guru.springframework.converters.UnitOfMeasureToUnitOfMeasureCommand;
 import guru.springframework.domain.Ingredient;
 import guru.springframework.domain.Recipe;
+import guru.springframework.repositories.IngredientRepository;
 import guru.springframework.repositories.RecipeRepository;
 import guru.springframework.repositories.UnitOfMeasureRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -33,6 +34,9 @@ public class IngredientServiceImplTest {
     @Mock
     UnitOfMeasureRepository unitOfMeasureRepository;
 
+    @Mock
+    IngredientRepository ingredientRepository;
+
     IngredientService ingredientService;
 
     private AutoCloseable closable;
@@ -46,7 +50,7 @@ public class IngredientServiceImplTest {
     @BeforeEach
     void setUp() {
         closable = MockitoAnnotations.openMocks(this);
-        ingredientService = new IngredientServiceImpl(ingredientToIngredientCommand, ingredientCommandToIngredient, recipeRepository, unitOfMeasureRepository);
+        ingredientService = new IngredientServiceImpl(ingredientToIngredientCommand, ingredientCommandToIngredient, recipeRepository, unitOfMeasureRepository, ingredientRepository);
     }
 
     @AfterEach

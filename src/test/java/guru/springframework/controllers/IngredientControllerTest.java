@@ -119,6 +119,18 @@ class IngredientControllerTest {
     }
 
     @Test
+    public void testDeleteIngredient() throws Exception {
+        RecipeCommand recipeCommand = new RecipeCommand();
+
+        when(recipeService.findCommandById(anyLong())).thenReturn(recipeCommand);
+
+        mockMvc.perform(get("/recipe/1/ingredient/2/delete"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("recipe/ingredient/list"))
+                .andExpect(model().attributeExists("recipe"));
+    }
+
+    @Test
     public void testSaveOrUpdate() throws Exception {
         //given
         IngredientCommand command = new IngredientCommand();
