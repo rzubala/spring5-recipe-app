@@ -125,9 +125,10 @@ class IngredientControllerTest {
         when(recipeService.findCommandById(anyLong())).thenReturn(recipeCommand);
 
         mockMvc.perform(get("/recipe/1/ingredient/2/delete"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("recipe/ingredient/list"))
-                .andExpect(model().attributeExists("recipe"));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/recipe/1/ingredients"));
+
+        verify(ingredientService, times(1)).deleteById(anyLong(), anyLong());
     }
 
     @Test
